@@ -19,8 +19,7 @@ class GitEdit(GObject.Object, Gedit.WindowActivatable):
   def build_widget(self):
     self.widget = GitWidget(self.window)
     panel = self.window.get_bottom_panel()
-    icon = Gtk.Image.new_from_stock(Gtk.STOCK_SAVE, Gtk.IconSize.MENU)
-    panel.add_item(self.widget, "Git", "Git", icon)
+    panel.add_titled(self.widget, "Git", "Git")
 
   def do_activate(self):
     self.window.connect("active-tab-changed", self.on_active_tab_changed)
