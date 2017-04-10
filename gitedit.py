@@ -45,7 +45,7 @@ class GitEdit(GObject.Object, Gedit.WindowActivatable):
         path = os.path.dirname(doc.get_uri_for_display())
         self.widget.display_for_path(path)
     else:
-      print "error saving: ", err
+      print("error saving: ", err)
 
 
 class GitWidget(Gtk.Notebook):
