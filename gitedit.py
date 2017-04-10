@@ -37,14 +37,11 @@ class GitEdit(GObject.Object, Gedit.WindowActivatable):
     """Listen for save on the added tab."""
     tab.get_document().connect("saved", self.on_document_saved)
 
-  def on_document_saved(self, doc, err):
+  def on_document_saved(self, doc):
     """Take the path of the saved document and update the display."""
-    if not err:
-      if self.widget:
-        path = os.path.dirname(doc.get_uri_for_display())
-        self.widget.display_for_path(path)
-    else:
-      print("error saving: ", err)
+    if self.widget:
+      path = os.path.dirname(doc.get_uri_for_display())
+      self.widget.display_for_path(path)
 
 
 class GitWidget(Gtk.Notebook):
@@ -220,7 +217,7 @@ class RepoBox(Gtk.Box):
         for diff in diffs.iter_change_type('D'):
           unstaged_list.append((False, 'D', diff.a_blob.name))
         for diff in diffs.iter_change_type('M'):
-          unstaged_list.append((False, 'M', diff.b_blob.name))
+            unstaged_list.append((False, 'M', diff.b_blob.name))
         for diff in diffs.iter_change_type('R'):
           unstaged_list.append((False, 'R', "{0} -> {1}".format(
             diff.a_blob.name, diff.b_blob_name)))
