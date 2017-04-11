@@ -7,7 +7,6 @@ try:
 except:
   pass
 
-
 class GitEdit(GObject.Object, Gedit.WindowActivatable):
   __gtype_name__ = "GitEdit"
   window = GObject.property(type=Gedit.Window)
@@ -281,11 +280,11 @@ class RepoBox(Gtk.Box):
       Gio.FileCreateFlags.REPLACE_DESTINATION, None)
     if stream:
       ostream = stream.get_output_stream()
-      ostream.write(
+      ostream.write(bytes(
         "\n\n# Lines that begin with a # and empty leading/trailing "
         "lines will not be\n# included. Leave an empty commit message "
-        "to abort the commit.\n#\n{0}".format(
-        self.current_repo.git.status()), None)
+        "to abort the commit.\n#\n", "utf-8"), None)
+      ostream.write(bytes(self.current_repo.git.status(), "utf-8"))
     stream.close(None)
     commit_tab = self.window.create_tab_from_location(
       commit_file, None, 0, 0, True, True)
