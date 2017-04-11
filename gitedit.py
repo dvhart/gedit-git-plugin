@@ -217,7 +217,7 @@ class RepoBox(Gtk.Box):
         for diff in diffs.iter_change_type('D'):
           unstaged_list.append((False, 'D', diff.a_blob.name))
         for diff in diffs.iter_change_type('M'):
-            unstaged_list.append((False, 'M', diff.b_blob.name))
+            unstaged_list.append((False, 'M', diff.a_blob.name))
         for diff in diffs.iter_change_type('R'):
           unstaged_list.append((False, 'R', "{0} -> {1}".format(
             diff.a_blob.name, diff.b_blob_name)))
