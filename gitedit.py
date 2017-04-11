@@ -280,11 +280,13 @@ class RepoBox(Gtk.Box):
       Gio.FileCreateFlags.REPLACE_DESTINATION, None)
     if stream:
       ostream = stream.get_output_stream()
-      ostream.write(bytes(
-        "\n\n# Lines that begin with a # and empty leading/trailing "
-        "lines will not be\n# included. Leave an empty commit message "
-        "to abort the commit.\n#\n", "utf-8"), None)
-      ostream.write(bytes(self.current_repo.git.status(), "utf-8"))
+      msg = os.linesep.join(("","",
+        "# Please enter the commit message for your changes. Lines starting",
+        "# with '#' will be ignored, and an empty message aborts the commit.",
+        "#",""))
+      ostream.write(bytes(msg, "utf-8"), None)
+      for line in self.current_repo.git.status().split(os.linesep):
+        ostream.write(bytes("# " + line + os.linesep, "utf-8"))
     stream.close(None)
     commit_tab = self.window.create_tab_from_location(
       commit_file, None, 0, 0, True, True)
